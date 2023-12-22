@@ -6,7 +6,7 @@ import { addContact } from "../../redux/slice";
 export const ContactForm = (props) => {
   const { checkName } = props;
   const dispatch = useDispatch()
-
+console.log('update');
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
