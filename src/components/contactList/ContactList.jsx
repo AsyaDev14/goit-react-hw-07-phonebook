@@ -1,18 +1,15 @@
 import React from "react";
 import css from "./ContactList.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteContact } from "../../redux/slice";
 import { nanoid } from "nanoid";
+import { deleteContactsThunk } from "../../redux/operations";
 
 export const ContactList = () => {
-  const contacts = useSelector((state) => state.contacts);
+  const contacts = useSelector((state) => state.contacts.contacts);
   const filter = useSelector(state => state.filter);
-
   const dispatch = useDispatch();
-
   
   const contactFilter = () => {
-    console.log('filter', filter);
     return contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
   };
 
@@ -24,7 +21,7 @@ export const ContactList = () => {
           <button
             type="button"
             className={css.delete_button}
-            onClick={() => dispatch(deleteContact(id))}
+            onClick={() => dispatch(deleteContactsThunk(id))}
           >
             Delete
           </button>

@@ -1,21 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialContacts = [
-  { id: 'id-1', name: 'Rosie', number: '459-12-56' },
-  { id: 'id-2', name: 'Hermion', number: '443-89-12' },
-  { id: 'id-3', name: 'Eden', number: '645-17-79' },
-  { id: 'id-4', name: 'Annie', number: '227-91-26' },
-];
+const initialContacts = {
+  contacts: [],
+  isLoading: false,
+  error: ''
+
+};
 
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: initialContacts,
   reducers: {
     addContact(state, action) {
-      state.push(action.payload);
+      state.contacts.push(action.payload);
+      state.isLoading = false;
     },
     deleteContact(state, action) {
-      return state.filter((contact) => contact.id !== action.payload);
+      state.contacts = state.contacts.filter((contact) => contact.id !== action.payload);
+      state.isLoading = false;
+    },
+    fetchingData(state, action) {
+      state.contacts = action.payload;
+      state.isLoading = false;
+    },
+    isPending(state, action) {
+      state.error = '';
+      state.isLoading = true;
+    },
+    isError(state, action) {
+      state.error = action.payload;
+      console.log('for err',  action.payload);
+      state.isLoading = false;
     },
   },
 });
@@ -30,5 +45,5 @@ export const filterSlice = createSlice({
   },
 });
 
-export const { addContact, deleteContact } = contactsSlice.actions;
+export const { addContact, deleteContact, fetchingData, isPending, isError } = contactsSlice.actions;
 export const { updateFilter } = filterSlice.actions;
