@@ -15,7 +15,6 @@ export const fetchContactsThunk = () => async dispatch => {
     dispatch(fetchingData(res.data))
   } catch (error) {
     dispatch(isError(error.message))
-    // console.log('eror',error);
   }
 };
 
