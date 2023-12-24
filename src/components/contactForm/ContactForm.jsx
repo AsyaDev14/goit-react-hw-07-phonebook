@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import css from './ContactForm.module.css';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addContactsThunk } from "../../redux/operations";
+import { selectContact } from '../../redux/selectors';
 
-export const ContactForm = (props) => {
-  const { checkName } = props;
+export const ContactForm = () => {
+  const contacts = useSelector(selectContact);
+
   const dispatch = useDispatch()
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -36,6 +38,9 @@ export const ContactForm = (props) => {
     setNumber('');
   };
 
+const checkName = (name) => {
+    return contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
+  };
   return (
     <form autoComplete="off" onSubmit={handleSubmit} >
       <label htmlFor="name">

@@ -3,10 +3,11 @@ import css from "./ContactList.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { nanoid } from "nanoid";
 import { deleteContactsThunk } from "../../redux/operations";
+import { selectContact, selectFilter } from "../../redux/selectors";
 
 export const ContactList = () => {
-  const contacts = useSelector((state) => state.contacts.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(selectContact);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
   
   const contactFilter = () => {

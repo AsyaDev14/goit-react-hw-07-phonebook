@@ -5,36 +5,32 @@ import { Filter } from './filter/Filter';
 import { ContactList } from './contactList/ContactList';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContactsThunk } from '../redux/operations';
+import { selectError, selectLoading } from '../redux/selectors';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts.contacts);
-  const loading = useSelector(state => state.contacts.isLoading);
-  const error = useSelector(state => state.contacts.error);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch()
-  const checkName = (name) => {
-    return contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
-  };
+
   useEffect(() => {
     dispatch(fetchContactsThunk())
   }, [dispatch])
 
-  if (loading) {
-    return(<div>loading</div>)
-  }
+
   if (error) {
-    return(<div>{error}</div>)
+    return (<div>{error}</div>)
   }
-  console.log('contact',contacts);
   return (
     <>
       <Section title='Phonebook'>
-        <ContactForm
-          checkName={checkName}
-        />
+        <ContactForm />
       </Section>
       <Section title='Contacts'>
         <Filter />
-        <ContactList/>
+        {loading
+          ? <div className='loading'>loading</div>
+          : <ContactList />
+        }
       </Section>
     </>
   );
